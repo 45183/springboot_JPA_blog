@@ -8,15 +8,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
+
 // 사용자 요청 -> 응답(HTML 파일)
 // @Controller
 
 // 사용자 요청 -> 응답(Data)
 @RestController
 public class HttpControllerTest {
+	
+	private static final String TAG = "HttpControllerTest : ";
+	
+	@GetMapping("/http/lombok")
+	public String lombokTest() {
+//		Member m = new Member(1, "hyun", "1234", "hyun@naver.com");		// AllArgsConstructor
+		Member m = Member.builder().username("hyun").password("1234").email("hyun@naver.com").build();	// 순서 상관 없음
+//		Member m2 = new Member();											// NoArgsConstructor
+		System.out.println(TAG + "getter : " + m.getUsername());
+		m.setUsername("hsb");
+		System.out.println(TAG + "setter : " + m.getUsername());
+		return "lombok test 완료";
+	}
 
 	@GetMapping("/http/get")		// http://localhost:8080/http/get (select)			// 인터넷 브라우저 요청은 get요청만 가능
 	public String getTest(Member m) {
+		
 		return "get 요청 : " + m.getId() + "," + m.getUsername() + "," + m.getPassword() + "," + m.getEmail();
 	}
 	
