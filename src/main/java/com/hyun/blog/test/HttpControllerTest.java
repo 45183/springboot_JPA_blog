@@ -19,6 +19,7 @@ public class HttpControllerTest {
 	
 	private static final String TAG = "HttpControllerTest : ";
 	
+	// http://localhost:8000/blog/http/lombok
 	@GetMapping("/http/lombok")
 	public String lombokTest() {
 //		Member m = new Member(1, "hyun", "1234", "hyun@naver.com");		// AllArgsConstructor
