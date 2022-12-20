@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.hyun.blog.model.User;
 import com.hyun.blog.repository.UserRepository;
 
-@Service	// Bean 등록  
+@Service	// Bean 등록    
 public class PrincipalDetailService implements UserDetailsService{
 	
 	@Autowired
