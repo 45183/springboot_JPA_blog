@@ -44,3 +44,6 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+      
+hyun:
+  key: hyun1234

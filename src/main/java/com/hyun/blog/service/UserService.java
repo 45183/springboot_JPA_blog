@@ -1,7 +1,6 @@
 package com.hyun.blog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,14 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
+	@Transactional(readOnly = true)
+	public User 회원찾기(String username) {
+		User user = userRepository.findByUsername(username).orElseGet(()->{	// 없으면 빈 객체 생성
+			return new User();
+		});
+		return user;
+	}
+	
 	@Transactional
 	public void 회원가입(User user) {
 		String rawPassword = user.getPassword();	// passsword 원문
@@ -38,10 +45,15 @@ public class UserService {
 		User persistence = userRepository.findById(user.getId()).orElseThrow(()->{
 			return new IllegalArgumentException("회원 찾기 실패");
 		});
-		String rawPassword = user.getPassword();
-		String encPassword = encoder.encode(rawPassword);
-		persistence.setPassword(encPassword);
-		persistence.setEmail(user.getEmail());
+
+		// Validate 체크
+		if(persistence.getOauth()==null || persistence.getOauth().equals("")){
+			String rawPassword = user.getPassword();
+			String encPassword = encoder.encode(rawPassword);
+			persistence.setPassword(encPassword);
+			persistence.setEmail(user.getEmail());
+		}
+
 		
 		// 회원수정 함수 종료 시 =  서비스 종료 시 = 트랜잭션 종료 = 자동으로 commit
 		// 영속화된 persistence 객체의 변화가 감지되면 더티체킹되어 자동으로 update문을 날려줌

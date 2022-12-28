@@ -12,8 +12,8 @@ import com.hyun.blog.dto.ResponseDto;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = Exception.class)
-	public ResponseDto<String> handleArgumentException(IllegalArgumentException e) {			
-		return new ResponseDto<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+	public ResponseDto<String> handleArgumentException(Exception e) {			
+		return new ResponseDto<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());	// 500
 	}
 	
 //	모든 exception에 대해서 할 경우
