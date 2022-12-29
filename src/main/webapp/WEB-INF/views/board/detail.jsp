@@ -21,8 +21,9 @@
 	<c:if test="${board.user.id == principal.user.id}">
 		<a href="/board/${board.id}/updateForm" class="btn btn-warning">수정</a>
 		<button id="btn-delete" class="btn btn-danger">삭제</button>
-		<hr />
 	</c:if>
+	<br />
+	<br />
 	
 	<div class="card">
 		<form>
@@ -39,13 +40,15 @@
 	<br />
 	<div class="card">
 		<div class="card-header">댓글 리스트</div>
-		<ul id="reply--box" class="list-group">
+		<ul id="reply-box" class="list-group">
 			<c:forEach var="reply" items="${board.replys}">
-				<li id="reply--1" class="list-group-item d-flex justify-content-between">
+				<li id="reply-${reply.id}" class="list-group-item d-flex justify-content-between">
 					<div>${reply.content}</div>
 					<div class="d-flex">
 						<div class="end">작성자 : ${reply.user.username} &nbsp;</div>
-						<button class="btn btn-outline-danger btn-sm">삭제</button>
+						<c:if test="${reply.user.id == principal.user.id}">
+							<button onclick="index.replyDelete(${board.id},${reply.id})" class="btn btn-outline-danger btn-sm">삭제</button>
+						</c:if>
 					</div>
 				</li>
 			</c:forEach>
